@@ -89,7 +89,19 @@ End-to-end latency breakdown per frame (batch=1, FP16, 640×640 input):
 
 ### Performance Comparison
 
-- [demo.mp4](https://github.com/user-attachments/assets/f158009a-1f45-4097-99de-65ecacc5a511)
+<table border="0" style="width: 100%; text-align: left; margin-top: 20px;">
+  <tr>
+      <td>
+          <video src="https://github.com/user-attachments/assets/f158009a-1f45-4097-99de-65ecacc5a511" width="320" controls loop></video>
+          <p align="center">demo1.mp4</p>
+      </td>
+      <td>
+          <video src="https://github.com/user-attachments/assets/87b93474-ecf3-4a58-b573-0b66876a6484" width="320" controls loop></video>
+          <p align="center">demo2.mp4</p>
+      </td>
+  </tr>
+</table>
+
 
 > All test images are included in the `images/` directories from [Baidu Pan](https://pan.baidu.com/s/1LKNBbtejD3B_fXesBKwJXg?pwd=rmf2)
 > 
