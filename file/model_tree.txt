@@ -1,0 +1,556 @@
+model
+└── model | Sequential
+    ├── 0 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 1 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 2 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | Bottleneck
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv2 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 3 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 4 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | Bottleneck
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv2 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 5 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 6 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | C3k
+    │   │       ├── m | Sequential
+    │   │       │   ├── 0 | Bottleneck
+    │   │       │   │   ├── cv1 | Conv
+    │   │       │   │   │   ├── conv | Conv2d
+    │   │       │   │   │   ├── bn | BatchNorm2d
+    │   │       │   │   │   └── act | SiLU
+    │   │       │   │   └── cv2 | Conv
+    │   │       │   │       ├── conv | Conv2d
+    │   │       │   │       ├── bn | BatchNorm2d
+    │   │       │   │       └── act | SiLU
+    │   │       │   └── 1 | Bottleneck
+    │   │       │       ├── cv1 | Conv
+    │   │       │       │   ├── conv | Conv2d
+    │   │       │       │   ├── bn | BatchNorm2d
+    │   │       │       │   └── act | SiLU
+    │   │       │       └── cv2 | Conv
+    │   │       │           ├── conv | Conv2d
+    │   │       │           ├── bn | BatchNorm2d
+    │   │       │           └── act | SiLU
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       ├── cv2 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv3 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 7 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 8 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | C3k
+    │   │       ├── m | Sequential
+    │   │       │   ├── 0 | Bottleneck
+    │   │       │   │   ├── cv1 | Conv
+    │   │       │   │   │   ├── conv | Conv2d
+    │   │       │   │   │   ├── bn | BatchNorm2d
+    │   │       │   │   │   └── act | SiLU
+    │   │       │   │   └── cv2 | Conv
+    │   │       │   │       ├── conv | Conv2d
+    │   │       │   │       ├── bn | BatchNorm2d
+    │   │       │   │       └── act | SiLU
+    │   │       │   └── 1 | Bottleneck
+    │   │       │       ├── cv1 | Conv
+    │   │       │       │   ├── conv | Conv2d
+    │   │       │       │   ├── bn | BatchNorm2d
+    │   │       │       │   └── act | SiLU
+    │   │       │       └── cv2 | Conv
+    │   │       │           ├── conv | Conv2d
+    │   │       │           ├── bn | BatchNorm2d
+    │   │       │           └── act | SiLU
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       ├── cv2 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv3 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 9 | SPPF
+    │   ├── m | MaxPool2d
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | Identity
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 10 | C2PSA
+    │   ├── m | Sequential
+    │   │   └── 0 | PSABlock
+    │   │       ├── attn | Attention
+    │   │       │   ├── qkv | Conv
+    │   │       │   │   ├── conv | Conv2d
+    │   │       │   │   ├── bn | BatchNorm2d
+    │   │       │   │   └── act | Identity
+    │   │       │   ├── proj | Conv
+    │   │       │   │   ├── conv | Conv2d
+    │   │       │   │   ├── bn | BatchNorm2d
+    │   │       │   │   └── act | Identity
+    │   │       │   └── pe | Conv
+    │   │       │       ├── conv | Conv2d
+    │   │       │       ├── bn | BatchNorm2d
+    │   │       │       └── act | Identity
+    │   │       └── ffn | Sequential
+    │   │           ├── 0 | Conv
+    │   │           │   ├── conv | Conv2d
+    │   │           │   ├── bn | BatchNorm2d
+    │   │           │   └── act | SiLU
+    │   │           └── 1 | Conv
+    │   │               ├── conv | Conv2d
+    │   │               ├── bn | BatchNorm2d
+    │   │               └── act | Identity
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 11 | Upsample
+    ├── 12 | Concat
+    ├── 13 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | C3k
+    │   │       ├── m | Sequential
+    │   │       │   ├── 0 | Bottleneck
+    │   │       │   │   ├── cv1 | Conv
+    │   │       │   │   │   ├── conv | Conv2d
+    │   │       │   │   │   ├── bn | BatchNorm2d
+    │   │       │   │   │   └── act | SiLU
+    │   │       │   │   └── cv2 | Conv
+    │   │       │   │       ├── conv | Conv2d
+    │   │       │   │       ├── bn | BatchNorm2d
+    │   │       │   │       └── act | SiLU
+    │   │       │   └── 1 | Bottleneck
+    │   │       │       ├── cv1 | Conv
+    │   │       │       │   ├── conv | Conv2d
+    │   │       │       │   ├── bn | BatchNorm2d
+    │   │       │       │   └── act | SiLU
+    │   │       │       └── cv2 | Conv
+    │   │       │           ├── conv | Conv2d
+    │   │       │           ├── bn | BatchNorm2d
+    │   │       │           └── act | SiLU
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       ├── cv2 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv3 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 14 | Upsample
+    ├── 15 | Concat
+    ├── 16 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | C3k
+    │   │       ├── m | Sequential
+    │   │       │   ├── 0 | Bottleneck
+    │   │       │   │   ├── cv1 | Conv
+    │   │       │   │   │   ├── conv | Conv2d
+    │   │       │   │   │   ├── bn | BatchNorm2d
+    │   │       │   │   │   └── act | SiLU
+    │   │       │   │   └── cv2 | Conv
+    │   │       │   │       ├── conv | Conv2d
+    │   │       │   │       ├── bn | BatchNorm2d
+    │   │       │   │       └── act | SiLU
+    │   │       │   └── 1 | Bottleneck
+    │   │       │       ├── cv1 | Conv
+    │   │       │       │   ├── conv | Conv2d
+    │   │       │       │   ├── bn | BatchNorm2d
+    │   │       │       │   └── act | SiLU
+    │   │       │       └── cv2 | Conv
+    │   │       │           ├── conv | Conv2d
+    │   │       │           ├── bn | BatchNorm2d
+    │   │       │           └── act | SiLU
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       ├── cv2 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv3 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 17 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 18 | Concat
+    ├── 19 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | C3k
+    │   │       ├── m | Sequential
+    │   │       │   ├── 0 | Bottleneck
+    │   │       │   │   ├── cv1 | Conv
+    │   │       │   │   │   ├── conv | Conv2d
+    │   │       │   │   │   ├── bn | BatchNorm2d
+    │   │       │   │   │   └── act | SiLU
+    │   │       │   │   └── cv2 | Conv
+    │   │       │   │       ├── conv | Conv2d
+    │   │       │   │       ├── bn | BatchNorm2d
+    │   │       │   │       └── act | SiLU
+    │   │       │   └── 1 | Bottleneck
+    │   │       │       ├── cv1 | Conv
+    │   │       │       │   ├── conv | Conv2d
+    │   │       │       │   ├── bn | BatchNorm2d
+    │   │       │       │   └── act | SiLU
+    │   │       │       └── cv2 | Conv
+    │   │       │           ├── conv | Conv2d
+    │   │       │           ├── bn | BatchNorm2d
+    │   │       │           └── act | SiLU
+    │   │       ├── cv1 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       ├── cv2 | Conv
+    │   │       │   ├── conv | Conv2d
+    │   │       │   ├── bn | BatchNorm2d
+    │   │       │   └── act | SiLU
+    │   │       └── cv3 | Conv
+    │   │           ├── conv | Conv2d
+    │   │           ├── bn | BatchNorm2d
+    │   │           └── act | SiLU
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    ├── 20 | Conv
+    │   ├── conv | Conv2d
+    │   ├── bn | BatchNorm2d
+    │   └── act | SiLU
+    ├── 21 | Concat
+    ├── 22 | C3k2
+    │   ├── m | ModuleList
+    │   │   └── 0 | Sequential
+    │   │       ├── 0 | Bottleneck
+    │   │       │   ├── cv1 | Conv
+    │   │       │   │   ├── conv | Conv2d
+    │   │       │   │   ├── bn | BatchNorm2d
+    │   │       │   │   └── act | SiLU
+    │   │       │   └── cv2 | Conv
+    │   │       │       ├── conv | Conv2d
+    │   │       │       ├── bn | BatchNorm2d
+    │   │       │       └── act | SiLU
+    │   │       └── 1 | PSABlock
+    │   │           ├── attn | Attention
+    │   │           │   ├── qkv | Conv
+    │   │           │   │   ├── conv | Conv2d
+    │   │           │   │   ├── bn | BatchNorm2d
+    │   │           │   │   └── act | Identity
+    │   │           │   ├── proj | Conv
+    │   │           │   │   ├── conv | Conv2d
+    │   │           │   │   ├── bn | BatchNorm2d
+    │   │           │   │   └── act | Identity
+    │   │           │   └── pe | Conv
+    │   │           │       ├── conv | Conv2d
+    │   │           │       ├── bn | BatchNorm2d
+    │   │           │       └── act | Identity
+    │   │           └── ffn | Sequential
+    │   │               ├── 0 | Conv
+    │   │               │   ├── conv | Conv2d
+    │   │               │   ├── bn | BatchNorm2d
+    │   │               │   └── act | SiLU
+    │   │               └── 1 | Conv
+    │   │                   ├── conv | Conv2d
+    │   │                   ├── bn | BatchNorm2d
+    │   │                   └── act | Identity
+    │   ├── cv1 | Conv
+    │   │   ├── conv | Conv2d
+    │   │   ├── bn | BatchNorm2d
+    │   │   └── act | SiLU
+    │   └── cv2 | Conv
+    │       ├── conv | Conv2d
+    │       ├── bn | BatchNorm2d
+    │       └── act | SiLU
+    └── 23 | Detect
+        ├── dfl | Identity
+        ├── cv2 | ModuleList
+        │   ├── 0 | Sequential
+        │   │   ├── 0 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   ├── 1 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   └── 2 | Conv2d
+        │   ├── 1 | Sequential
+        │   │   ├── 0 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   ├── 1 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   └── 2 | Conv2d
+        │   └── 2 | Sequential
+        │       ├── 0 | Conv
+        │       │   ├── conv | Conv2d
+        │       │   ├── bn | BatchNorm2d
+        │       │   └── act | SiLU
+        │       ├── 1 | Conv
+        │       │   ├── conv | Conv2d
+        │       │   ├── bn | BatchNorm2d
+        │       │   └── act | SiLU
+        │       └── 2 | Conv2d
+        ├── one2one_cv2 | ModuleList
+        │   ├── 0 | Sequential
+        │   │   ├── 0 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   ├── 1 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   └── 2 | Conv2d
+        │   ├── 1 | Sequential
+        │   │   ├── 0 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   ├── 1 | Conv
+        │   │   │   ├── conv | Conv2d
+        │   │   │   ├── bn | BatchNorm2d
+        │   │   │   └── act | SiLU
+        │   │   └── 2 | Conv2d
+        │   └── 2 | Sequential
+        │       ├── 0 | Conv
+        │       │   ├── conv | Conv2d
+        │       │   ├── bn | BatchNorm2d
+        │       │   └── act | SiLU
+        │       ├── 1 | Conv
+        │       │   ├── conv | Conv2d
+        │       │   ├── bn | BatchNorm2d
+        │       │   └── act | SiLU
+        │       └── 2 | Conv2d
+        ├── one2one_cv3 | ModuleList
+        │   ├── 0 | Sequential
+        │   │   ├── 0 | Sequential
+        │   │   │   ├── 0 | DWConv
+        │   │   │   │   ├── conv | Conv2d
+        │   │   │   │   ├── bn | BatchNorm2d
+        │   │   │   │   └── act | SiLU
+        │   │   │   └── 1 | Conv
+        │   │   │       ├── conv | Conv2d
+        │   │   │       ├── bn | BatchNorm2d
+        │   │   │       └── act | SiLU
+        │   │   ├── 1 | Sequential
+        │   │   │   ├── 0 | DWConv
+        │   │   │   │   ├── conv | Conv2d
+        │   │   │   │   ├── bn | BatchNorm2d
+        │   │   │   │   └── act | SiLU
+        │   │   │   └── 1 | Conv
+        │   │   │       ├── conv | Conv2d
+        │   │   │       ├── bn | BatchNorm2d
+        │   │   │       └── act | SiLU
+        │   │   └── 2 | Conv2d
+        │   ├── 1 | Sequential
+        │   │   ├── 0 | Sequential
+        │   │   │   ├── 0 | DWConv
+        │   │   │   │   ├── conv | Conv2d
+        │   │   │   │   ├── bn | BatchNorm2d
+        │   │   │   │   └── act | SiLU
+        │   │   │   └── 1 | Conv
+        │   │   │       ├── conv | Conv2d
+        │   │   │       ├── bn | BatchNorm2d
+        │   │   │       └── act | SiLU
+        │   │   ├── 1 | Sequential
+        │   │   │   ├── 0 | DWConv
+        │   │   │   │   ├── conv | Conv2d
+        │   │   │   │   ├── bn | BatchNorm2d
+        │   │   │   │   └── act | SiLU
+        │   │   │   └── 1 | Conv
+        │   │   │       ├── conv | Conv2d
+        │   │   │       ├── bn | BatchNorm2d
+        │   │   │       └── act | SiLU
+        │   │   └── 2 | Conv2d
+        │   └── 2 | Sequential
+        │       ├── 0 | Sequential
+        │       │   ├── 0 | DWConv
+        │       │   │   ├── conv | Conv2d
+        │       │   │   ├── bn | BatchNorm2d
+        │       │   │   └── act | SiLU
+        │       │   └── 1 | Conv
+        │       │       ├── conv | Conv2d
+        │       │       ├── bn | BatchNorm2d
+        │       │       └── act | SiLU
+        │       ├── 1 | Sequential
+        │       │   ├── 0 | DWConv
+        │       │   │   ├── conv | Conv2d
+        │       │   │   ├── bn | BatchNorm2d
+        │       │   │   └── act | SiLU
+        │       │   └── 1 | Conv
+        │       │       ├── conv | Conv2d
+        │       │       ├── bn | BatchNorm2d
+        │       │       └── act | SiLU
+        │       └── 2 | Conv2d
+        └── cv3 | ModuleList
+            ├── 0 | Sequential
+            │   ├── 0 | Sequential
+            │   │   ├── 0 | DWConv
+            │   │   │   ├── conv | Conv2d
+            │   │   │   ├── bn | BatchNorm2d
+            │   │   │   └── act | SiLU
+            │   │   └── 1 | Conv
+            │   │       ├── conv | Conv2d
+            │   │       ├── bn | BatchNorm2d
+            │   │       └── act | SiLU
+            │   ├── 1 | Sequential
+            │   │   ├── 0 | DWConv
+            │   │   │   ├── conv | Conv2d
+            │   │   │   ├── bn | BatchNorm2d
+            │   │   │   └── act | SiLU
+            │   │   └── 1 | Conv
+            │   │       ├── conv | Conv2d
+            │   │       ├── bn | BatchNorm2d
+            │   │       └── act | SiLU
+            │   └── 2 | Conv2d
+            ├── 1 | Sequential
+            │   ├── 0 | Sequential
+            │   │   ├── 0 | DWConv
+            │   │   │   ├── conv | Conv2d
+            │   │   │   ├── bn | BatchNorm2d
+            │   │   │   └── act | SiLU
+            │   │   └── 1 | Conv
+            │   │       ├── conv | Conv2d
+            │   │       ├── bn | BatchNorm2d
+            │   │       └── act | SiLU
+            │   ├── 1 | Sequential
+            │   │   ├── 0 | DWConv
+            │   │   │   ├── conv | Conv2d
+            │   │   │   ├── bn | BatchNorm2d
+            │   │   │   └── act | SiLU
+            │   │   └── 1 | Conv
+            │   │       ├── conv | Conv2d
+            │   │       ├── bn | BatchNorm2d
+            │   │       └── act | SiLU
+            │   └── 2 | Conv2d
+            └── 2 | Sequential
+                ├── 0 | Sequential
+                │   ├── 0 | DWConv
+                │   │   ├── conv | Conv2d
+                │   │   ├── bn | BatchNorm2d
+                │   │   └── act | SiLU
+                │   └── 1 | Conv
+                │       ├── conv | Conv2d
+                │       ├── bn | BatchNorm2d
+                │       └── act | SiLU
+                ├── 1 | Sequential
+                │   ├── 0 | DWConv
+                │   │   ├── conv | Conv2d
+                │   │   ├── bn | BatchNorm2d
+                │   │   └── act | SiLU
+                │   └── 1 | Conv
+                │       ├── conv | Conv2d
+                │       ├── bn | BatchNorm2d
+                │       └── act | SiLU
+                └── 2 | Conv2d
