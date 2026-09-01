@@ -87,6 +87,30 @@ End-to-end latency breakdown per frame (batch=1, FP16, 640×640 input):
 > 
 > Test platform: NVIDIA RTX 4060 / CUDA 12.6 / TensorRT 10.7
 
+### Model‑size Performance Estimation (640×640, batch=1, FP16, RTX‑4060)
+> Estimated end‑to‑end FPS for YOLO‑n / s / m / l / x family
+
+| Model | Est. Total Latency (ms) | Est. End‑to‑end FPS |
+|:-----:|------------------------:|:-------------------:|
+| ‑n    |                  ≈ 1.17 |        ≈ 854        |
+| ‑s    |                  ≈ 1.48 |        ≈ 675        |
+| ‑m    |                  ≈ 2.31 |        ≈ 432        |
+| ‑l    |                  ≈ 2.85 |        ≈ 350        |
+| ‑x    |                  ≈ 5.23 |        ≈ 191        |
+
+> Note: Values are empirical estimates scaled from your measured ‑n / ‑s results, actual FPS may vary slightly with TensorRT optimization, NMS overhead and GPU runtime load.
+
+### Numerical Consistency
+
+Only FP32 numerical alignment has been verified so far:
+
+- Zero error for 640×640 inputs.
+- Pre‑processing error < 1 pixel (255‑scale) for non‑integer input sizes.
+- Inference: max absolute error < 1e‑5, max relative error < 1e‑5.
+- Post‑processing: error‑free.
+
+FP16 and INT8 precision validation are pending for future development.
+
 ### Performance Comparison
 
 <table border="0" style="width: 100%; text-align: left; margin-top: 20px;">
@@ -106,8 +130,9 @@ End-to-end latency breakdown per frame (batch=1, FP16, 640×640 input):
 > All test images are included in the `images/` directories from [Baidu Pan](https://pan.baidu.com/s/1LKNBbtejD3B_fXesBKwJXg?pwd=rmf2)
 > 
 > To generate your own visualization results, run inference and check outputs in `output/`.
->
-> 
+
+
+
 ---
 
 ## 📋 Requirements
