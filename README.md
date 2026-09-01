@@ -89,7 +89,7 @@ End-to-end latency breakdown per frame (batch=1, FP16, 640×640 input):
 
 ### Performance Comparison
 
-- [demo.mp4](assets/demo.mp4)
+- [demo.mp4](https://github.com/user-attachments/assets/f158009a-1f45-4097-99de-65ecacc5a511)
 
 > All test images are included in the `images/` directories from [Baidu Pan](https://pan.baidu.com/s/1LKNBbtejD3B_fXesBKwJXg?pwd=rmf2)
 > 
@@ -283,7 +283,7 @@ nvidia-settings -a "[gpu:0]/GPUPowerMizerMode=0"
 
 ## 🙏 Acknowledgments
 
-- [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) — Official YOLO26 PyTorch implementation
+- [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) — Official(8.4.120) YOLO26 PyTorch implementation
 - [NVIDIA/TensorRT](https://developer.nvidia.com/tensorrt) — High-performance inference SDK
 - [wang-xinyu/tensorrtx](https://github.com/wang-xinyu/tensorrtx) — TensorRT deployment reference architecture
 
