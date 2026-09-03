@@ -90,13 +90,13 @@ End-to-end latency breakdown per frame (batch=1, FP16, 640×640 input):
 ### Model‑size Performance Estimation (640×640, batch=1, FP16, RTX‑4060)
 > Estimated end‑to‑end FPS for YOLO‑n / s / m / l / x family
 
-| Model | Est. Total Latency (ms) | Est. End‑to‑end FPS |
-|:-----:|------------------------:|:-------------------:|
-| ‑n    |                  ≈ 1.17 |        ≈ 854        |
-| ‑s    |                  ≈ 1.48 |        ≈ 675        |
-| ‑m    |                  ≈ 2.31 |        ≈ 432        |
-| ‑l    |                  ≈ 2.85 |        ≈ 350        |
-| ‑x    |                  ≈ 5.23 |        ≈ 191        |
+| Model | Est. Total Latency (ms) | Est. End‑to‑end FPS(FP16) | Est. End‑to‑end FPS(FP32) | Est. End‑to‑end FPS(INT8) |
+|:-----:|------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
+| ‑n    |                  ≈ 1.17 |           ≈ 854           |             /             |          ≈ 1000           |
+| ‑s    |                  ≈ 1.48 |           ≈ 675           |             /             |           ≈ 800           |
+| ‑m    |                  ≈ 2.31 |           ≈ 432           |             /             |             /             |
+| ‑l    |                  ≈ 2.85 |           ≈ 350           |             /             |             /             |
+| ‑x    |                  ≈ 5.23 |           ≈ 191           |             /             |             /             |
 
 > Note: Values are empirical estimates scaled from your measured ‑n / ‑s results, actual FPS may vary slightly with TensorRT optimization, NMS overhead and GPU runtime load.
 
@@ -111,9 +111,6 @@ Only FP32 numerical alignment has been verified so far:
 
 FP16 
 - Inference: max absolute error < 1e‑3, max relative error < 1e‑3.
-
-INT8
-- Inference: max absolute error < 1e‑1, max relative error < 1e‑1.
 
 ### Performance Comparison
 
