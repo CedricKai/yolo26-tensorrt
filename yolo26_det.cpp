@@ -9,6 +9,8 @@
 #include "preprocess.cuh"
 #include "postprocess.cuh"
 #include "utils.h"
+#include "calibrator.h"
+
 
 Logger gLogger;
 using namespace nvinfer1;
@@ -39,26 +41,29 @@ inline void setTrtConfig(IBuilder* builder, IBuilderConfig* config, const Precis
     config->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE, 256U * (1U << 20));
     switch(mode)
     {
-        case PrecisionMode::FP16:
-            config->setFlag(BuilderFlag::kFP16);
-            config->setFlag(BuilderFlag::kPREFER_PRECISION_CONSTRAINTS);
-            std::cout << "Inference precision configured as FP16." << std::endl;
-            break;
-        case PrecisionMode::INT8:
-            config->setFlag(BuilderFlag::kINT8);
-            std::cout << "Your platform support int8: " << (builder->platformHasFastInt8() ? "true" : "false") << std::endl;
-            assert(builder->platformHasFastInt8());
-            config->setFlag(BuilderFlag::kINT8);
-            // auto* calibrator = new Int8EntropyCalibrator2(1, kInputW, kInputH, kInputQuantizationFolder, "int8calib.table",
-            //                                               kInputTensorName);
-            // config->setInt8Calibrator(calibrator);
-            std::cout << "Inference precision configured as INT8." << std::endl;
-            break;
-        case PrecisionMode::FP32:
+        case PrecisionMode::FP32: {
             config->clearFlag(BuilderFlag::kTF32);
             config->setFlag(BuilderFlag::kOBEY_PRECISION_CONSTRAINTS);
             std::cout << "Inference precision configured as FP32." << std::endl;
             break;
+        }
+        case PrecisionMode::FP16: {
+            config->setFlag(BuilderFlag::kFP16);
+            config->setFlag(BuilderFlag::kPREFER_PRECISION_CONSTRAINTS);
+            std::cout << "Inference precision configured as FP16." << std::endl;
+            break;
+        }
+        case PrecisionMode::INT8: {
+            std::cout << "Your platform support int8: " << (builder->platformHasFastInt8() ? "true" : "false") << std::endl;
+            assert(builder->platformHasFastInt8());
+            config->setFlag(BuilderFlag::kINT8);
+            std::cout << "Inference precision configured as INT8." << std::endl;
+
+            auto* calibrator = new Int8EntropyCalibrator2(kBatchSize, kInputW, kInputH,
+                kInputQuantizationFolder, kCalibTableName, kInputTensorName, false);
+            config->setInt8Calibrator(calibrator);
+            break;
+        }
         default:
             break;
     }
@@ -194,6 +199,21 @@ void prepare_buffer(ICudaEngine* engine,
 
     *decode_ptr_host = new float[kMaxNumOutputBboxSIZE];
     CUDA_CHECK(cudaMalloc((void**)decode_ptr_device, kMaxNumOutputBboxSIZE * sizeof(float)));
+
+    // Initialize decode device buffer with sentinel values (class_id = -1.0f)
+    // This ensures the CPU-side loop terminates correctly even on first warmup
+    float* sentinel_buf = new float[kMaxNumOutputBboxSIZE];
+    for(int i = 0; i < kMaxNumOutputBbox; i++){
+        sentinel_buf[i * 6 + 0] = 0.0f;   // x1
+        sentinel_buf[i * 6 + 1] = 0.0f;   // y1
+        sentinel_buf[i * 6 + 2] = 0.0f;   // x2
+        sentinel_buf[i * 6 + 3] = 0.0f;   // y2
+        sentinel_buf[i * 6 + 4] = -1.0f;  // conf
+        sentinel_buf[i * 6 + 5] = -1.0f;  // class_id
+    }
+    CUDA_CHECK(cudaMemcpy(*decode_ptr_device, sentinel_buf,
+        kMaxNumOutputBboxSIZE * sizeof(float), cudaMemcpyHostToDevice));
+    delete[] sentinel_buf;
 }
 
 
@@ -228,6 +248,21 @@ void postprocess(float*&output, float*& dp_device, float*& dp_host, std::vector<
     cudaEventRecord(g_ev_stop, stream);
     cudaEventSynchronize(g_ev_stop);
     cudaEventElapsedTime(&gpu_ms, g_ev_start, g_ev_stop);
+
+    {
+        std::ofstream out_file("dp_host.bin", std::ios::binary);
+        if (out_file.is_open())
+        {
+            out_file.write(reinterpret_cast<const char*>(dp_host),
+                kMaxNumOutputBboxSIZE * sizeof(float));
+            out_file.close();
+            std::cout << "[Dump] dp_host.bin saved.\n";
+        }
+        else
+        {
+            std::cerr << "[Warning] cannot open file to dump dp_host\n";
+        }
+    }
 
     res.clear();
     Detection* det_ptr = reinterpret_cast<Detection*>(dp_host);
@@ -348,7 +383,7 @@ int main(int argc, char** argv) {
             res, class_names, stream, false, false);
         auto end = std::chrono::steady_clock::now();
         double duration_us = std::chrono::duration<double, std::micro>(end - start).count();
-        std::cout << "warm_up -> " << i << " time -> " << duration_us * 1000 << " us\n";
+        std::cout << "warm_up -> " << i << " time -> " << duration_us << " us\n";
     }
 
     std::cout << "\nInference Start:" << std::endl;

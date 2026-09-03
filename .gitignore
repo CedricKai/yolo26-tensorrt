@@ -14,6 +14,8 @@ file/*.pt
 file/*.wts
 file/*.engine
 file/*.yaml
+file/*.onnx
+file/coco_calib
 
 __pycache__/
 *.py[cod]

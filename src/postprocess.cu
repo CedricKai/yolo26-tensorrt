@@ -7,6 +7,7 @@ int* d_indices = nullptr;
 float* d_sorted_scores = nullptr;
 int* d_sorted_indices = nullptr;
 void* d_sort_temp = nullptr;
+size_t d_sort_temp_bytes = 0;
 
 
 __global__ void argmax_kernel(
@@ -24,6 +25,8 @@ __global__ void argmax_kernel(
     #pragma unroll 4
     for (int c = 0; c < NUM_CLASSES; ++c) {
         float val = scores[c];
+        // Sanitize NaN/Inf to prevent CUB sort from producing garbage indices
+        if (isnan(val) || isinf(val)) val = -FLT_MAX;
         if (val > max_val) {
             max_val = val;
             max_idx = c;
@@ -59,6 +62,17 @@ __global__ void gather_and_format_kernel(
     }
 
     int original_box_idx = topk_indices[k_idx];
+    // Bounds check to prevent illegal memory access from garbage indices
+    if (original_box_idx < 0 || original_box_idx >= NUM_BOXES) {
+        out_row[0] = 0.0f;
+        out_row[1] = 0.0f;
+        out_row[2] = 0.0f;
+        out_row[3] = 0.0f;
+        out_row[4] = -1.0f;
+        out_row[5] = -1.0f;
+        return;
+    }
+
     const float* box_data = input + original_box_idx * INFO_PER_BOX;
     int class_id = max_class_ids[original_box_idx];
 
@@ -85,35 +99,20 @@ __global__ void init_indices_kernel(int* indices, int n) {
 
 extern "C" void cuda_postprocess(float*& d_input, float*& d_output, int img0_w, int img0_h, cudaStream_t& stream)
 {
-     constexpr int threads = 256;
+    constexpr int threads = 256;
     int blocks = (NUM_BOXES + threads - 1) / threads;
     init_indices_kernel<<<blocks, threads, 0 , stream>>>(d_indices, NUM_BOXES);
 
     int blocks1 = (NUM_BOXES + threads - 1) / threads;
     argmax_kernel<<<blocks1, threads, 0, stream>>>(d_input, d_max_scores, d_max_class_ids);
 
-    // CUB Top-K Sort
-    size_t sort_temp_bytes = 0;
+    // CUB Top-K Sort using pre-allocated temp buffer
     cub::DeviceRadixSort::SortPairsDescending(
-        nullptr,                // [1] d_temp_storage: 临时显存指针
-        sort_temp_bytes,     // [2] temp_storage_bytes: 临时显存大小（字节）
-        d_max_scores,           // [3] d_keys_in: 输入键数组（待排序的 score）
-        d_sorted_scores,        // [4] d_keys_out: 输出键数组（排序后的 score）
-        d_indices,              // [5] d_values_in: 输入值数组（原始索引 0~8399）
-        d_sorted_indices,       // [6] d_values_out: 输出值数组（排序后对应的索引）
-        NUM_BOXES,              // [7] num_items: 参与排序的元素个数（8400）
-        0,                      // [8] begin_bit: 从第几个 bit 开始比较
-        sizeof(float) * 8       // [9] end_bit: 到第几个 bit 结束比较
-    );
-    CUDA_CHECK(cudaMallocAsync(&d_sort_temp, sort_temp_bytes, stream));
-    cub::DeviceRadixSort::SortPairsDescending(
-        d_sort_temp, sort_temp_bytes,
+        d_sort_temp, d_sort_temp_bytes,
         d_max_scores, d_sorted_scores,
         d_indices, d_sorted_indices,
-        NUM_BOXES, 0, sizeof(float) * 8);
+        NUM_BOXES, 0, sizeof(float) * 8, stream);
     CUDA_CHECK(cudaStreamSynchronize(stream));
-    CUDA_CHECK(cudaFree(d_sort_temp));
-    d_sort_temp = nullptr;
 
     float gain = std::min(static_cast<float>(kInputW) / static_cast<float>(img0_w),
                           static_cast<float>(kInputH) / static_cast<float>(img0_h));
@@ -135,6 +134,17 @@ void cuda_postprocess_init() {
     CUDA_CHECK(cudaMalloc(&d_indices,         NUM_BOXES * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_sorted_scores,   NUM_BOXES * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_sorted_indices,  NUM_BOXES * sizeof(int)));
+
+    // Pre-allocate CUB sort temporary storage
+    cub::DeviceRadixSort::SortPairsDescending(
+        nullptr, d_sort_temp_bytes,
+        static_cast<float*>(nullptr), static_cast<float*>(nullptr),
+        static_cast<int*>(nullptr), static_cast<int*>(nullptr),
+        NUM_BOXES, 0, sizeof(float) * 8);
+    // Add 50% safety margin for runtime variations
+    d_sort_temp_bytes = d_sort_temp_bytes * 3 / 2;
+    CUDA_CHECK(cudaMalloc(&d_sort_temp, d_sort_temp_bytes));
+    std::cout << "CUB sort temp buffer: " << d_sort_temp_bytes << " bytes" << std::endl;
 }
 
 void cuda_postprocess_destroy() {
@@ -143,13 +153,12 @@ void cuda_postprocess_destroy() {
     if(d_indices)         CUDA_CHECK(cudaFree(d_indices));
     if(d_sorted_scores)   CUDA_CHECK(cudaFree(d_sorted_scores));
     if(d_sorted_indices)  CUDA_CHECK(cudaFree(d_sorted_indices));
+    if(d_sort_temp)       CUDA_CHECK(cudaFree(d_sort_temp));
 
     d_max_scores = nullptr;
     d_max_class_ids = nullptr;
     d_indices = nullptr;
     d_sorted_scores = nullptr;
     d_sorted_indices = nullptr;
+    d_sort_temp = nullptr;
 }
-
-
-

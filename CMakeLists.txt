@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -ccbin /usr/bin/g++-9")
 if(UNIX)
     set(CMAKE_CUDA_COMPILER "/usr/local/cuda-12.6/bin/nvcc")
@@ -10,6 +10,8 @@ project(yolo26 LANGUAGES CXX CUDA)
 # C++ / CUDA 标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_ARCHITECTURES 89)
 
 if(WIN32)
     add_definitions(-DAPI_EXPORTS)

@@ -30,7 +30,8 @@ inline constexpr int kMaxNumOutputBboxSIZE = 300 * sizeof(Detection) / sizeof(fl
 inline constexpr int kMaxInputImageSize = 1500 * 1500 * 3;
 inline constexpr int kWarmUp = 10;
 inline constexpr int kVisMax = 30;
-inline constexpr const char* kInputQuantizationFolder = "./coco_calib";
+inline constexpr const char* kInputQuantizationFolder = "../file/coco_calib/";
+inline constexpr const char* kCalibTableName = "int8calib.table";
 
 inline constexpr int NUM_BOXES = 8400;
 inline constexpr int NUM_CLASSES = 80;

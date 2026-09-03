@@ -109,7 +109,11 @@ Only FP32 numerical alignment has been verified so far:
 - Inference: max absolute error < 1e‑5, max relative error < 1e‑5.
 - Post‑processing: error‑free.
 
-FP16 and INT8 precision validation are pending for future development.
+FP16 
+- Inference: max absolute error < 1e‑3, max relative error < 1e‑3.
+
+INT8
+- Inference: max absolute error < 1e‑1, max relative error < 1e‑1.
 
 ### Performance Comparison
 
